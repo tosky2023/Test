@@ -81,3 +81,13 @@ struct MemoryGame<CardContent> where CardContent:Equatable {
         var id: Int
     }
 }
+
+extension Array {
+    var oneAndOnly: Element? {
+        if self.count == 1 {
+            return self.first
+        } else {
+            return nil
+        }
+    }
+}
