@@ -31,12 +31,13 @@ struct EmojiMemoryGameView: View {
         })
         .foregroundColor(.red)
     }
-    private func cardView(for card:Card) -> some View {
+    @ViewBuilder
+    private func cardView(for card:EmojiMemoryGame.Card) -> some View {
         if card.isMatched && !card.isFaceUp {
-                        Rectangle().opacity(0)
+                Rectangle().opacity(0)
                     } else {
                         CardView(card: card)
-                            .aspectRatio(2/3, contentMode: .fit)
+                            .padding(4)
                             .onTapGesture {
                                 game.choose(card)
                             }
@@ -75,13 +76,10 @@ struct CardView : View {
     }
 }
 
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        EmojiMemoryGameView(viewModel:game)
+        game.choose(game.cards.first!)
+        return EmojiMemoryGameView(game: game)
     }
 }
-
-//test
-//test again
