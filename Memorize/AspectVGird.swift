@@ -15,17 +15,24 @@ struct AspectVGrid<Item,ItemView>: View where ItemView:View, Item:Identifiable {
     
     
     var body: some View {
-        let width : CGFloat = 100
-        LazyVGrid(columns:[adaptiveGridItem(width: width)],spacing: 0) {
-            ForEach(items) { item in
-                content(item).aspectRatio(aspectRatio, contentMode: .fit)
+        GeometryReader { geometry in
+            VStack{
+                let width : CGFloat = widthThatfits(itemCount: items.count, in: geometry.size, itemAspectRatio: aspectRatio )
+                LazyVGrid(columns:[adaptiveGridItem(width: width)],spacing: 5) {
+                    ForEach(items) { item in
+                        content(item).aspectRatio(aspectRatio, contentMode: .fit)
+                    }
+                }
+                Spacer(minLength: 0)
             }
+            
         }
+        
     }
     
     private func adaptiveGridItem(width:CGFloat) -> GridItem {
         var gridItem = GridItem(.adaptive(minimum: width))
-        gridItem.spacing = 0
+        gridItem.spacing = 5
         return gridItem
     }
     
